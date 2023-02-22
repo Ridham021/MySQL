@@ -1,0 +1,150 @@
+Users
+Photos
+Comments
+Hashtags
+Likes
+Followers / Followes
+
+CREATE TABLE users (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE photos (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    image_url VARCHAR(255) NOT NULL,
+    user_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+CREATE TABLE likes (
+    user_id INTEGER NOT NULL,
+    photo_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(photo_id) REFERENCES photos(id),
+    PRIMARY KEY(user_id, photo_id)
+);
+
+CREATE TABLE follows (
+    follower_id INTEGER NOT NULL,
+    followee_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY(follower_id) REFERENCES users(id),
+    FOREIGN KEY(followee_id) REFERENCES users(id),
+    PRIMARY KEY(follower_id, followee_id)
+);
+
+CREATE TABLE tags (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  tag_name VARCHAR(255) UNIQUE,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+CREATE TABLE photo_tags (
+    photo_id INTEGER NOT NULL,
+    tag_id INTEGER NOT NULL,
+    FOREIGN KEY(photo_id) REFERENCES photos(id),
+    FOREIGN KEY(tag_id) REFERENCES tags(id),
+    PRIMARY KEY(photo_id, tag_id)
+);
+
+
+------------------------------------------------------------
+
+(1) finding 5 oldest users
+
+select * from users order by created_at  limit 5;
++----+------------------+---------------------+
+| id | username         | created_at          |
++----+------------------+---------------------+
+| 80 | Darby_Herzog     | 2016-05-06 00:14:21 |
+| 67 | Emilio_Bernier52 | 2016-05-06 13:04:30 |
+| 63 | Elenor88         | 2016-05-08 01:30:41 |
+| 95 | Nicole71         | 2016-05-09 17:30:22 |
+| 38 | Jordyn.Jacobson2 | 2016-05-14 07:56:26 |
++----+------------------+---------------------+
+
+(2) FIND OUT DAYOFWEEK WHERE MOST USER SIGNED IN 
+
+SELECT DAYNAME(created_at),DAYOFWEEK(created_at), COUNT(*)  FROM users GR
+OUP BY DAYOFWEEK(created_at),DAYNAME(created_at) order by COUNT(*) DESC;
++---------------------+-----------------------+----------+
+| DAYNAME(created_at) | DAYOFWEEK(created_at) | COUNT(*) |
++---------------------+-----------------------+----------+
+| Thursday            |                     5 |       16 |
+| Sunday              |                     1 |       16 |
+| Friday              |                     6 |       15 |
+| Tuesday             |                     3 |       14 |
+| Monday              |                     2 |       14 |
+| Wednesday           |                     4 |       13 |
+| Saturday            |                     7 |       12 |
++---------------------+-----------------------+----------+
+
+(3) FIND USERS WHO NEVER POSTED A PHOTO
+
+SELECT 
+    username,
+    photos.id,
+    photos.image_url, 
+    COUNT(*) AS total
+FROM photos
+INNER JOIN likes
+    ON likes.photo_id = photos.id
+INNER JOIN users
+    ON photos.user_id = users.id
+GROUP BY photos.id
+ORDER BY total DESC
+LIMIT 1;
+
++---------------+-----+---------------------+-------+
+| username      | id  | image_url           | total |
++---------------+-----+---------------------+-------+
+| Zack_Kemmer93 | 145 | https://jarret.name |    48 |
++---------------+-----+---------------------+-------+
+
+(4) HOW MANY TIMES DOES AVERAGE USER POST?
+
+SELECT (SELECT COUNT(*) FROM photos) / (SELECT COUNT(*) FROM users) as count;
++--------+
+| count  |
++--------+
+| 2.5700 |
++--------+
+
+(5) COUNT TOP 5 MOST USED hastags
+
+select tag_name , COUNT(*) from photo_tags JOIN tags ON photo_tags.tag_id = tags.id GROUP BY photo_tags.tag_id ORDER BY 2 DESC LIMIT 5;
++----------+----------+
+| tag_name | COUNT(*) |
++----------+----------+
+| smile    |       59 |
+| beach    |       42 |
+| party    |       39 |
+| fun      |       38 |
+| concert  |       24 |
++----------+----------+
+
+(6) FIND USERS WHO LIKED EVERY PHOTO 
+
+SELECT username , count(*) from users JOIN likes ON users.id = likes.user_id GROUP BY users.id HAVING COUNT(*) = (SELECT COUNT(*) FROM photos);
++--------------------+----------+
+| username           | count(*) |
++--------------------+----------+
+| Aniya_Hackett      |      257 |
+| Jaclyn81           |      257 |
+| Rocio33            |      257 |
+| Maxwell.Halvorson  |      257 |
+| Ollie_Ledner37     |      257 |
+| Mckenna17          |      257 |
+| Duane60            |      257 |
+| Julien_Schmidt     |      257 |
+| Mike.Auer39        |      257 |
+| Nia_Haag           |      257 |
+| Leslie67           |      257 |
+| Janelle.Nikolaus81 |      257 |
+| Bethany20          |      257 |
++--------------------+----------+
+
+

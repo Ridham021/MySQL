@@ -1,0 +1,377 @@
+SQL
+
+Date :- 25/1/2023
+
+App --> DBMS(MySql,Oracle,Postgres) --> Database
+
+CREATE DATABASE
+----------------
+
+list database - show databases;
+
+create database - create database <mydb>;
+
+drop database - DROP DATABASE <mydb>;
+
+change database - USE <database-name>;
+
+show all tables - SHOW TABLES;
+                  SHOW COLUMNS FROM <table-name>;
+
+To check which database currently working - select database();
+
+Data Types
+----------------------
+
+INT 
+VARCHAR(max_length) - variable length string
+
+CREATE TABLE
+-----------------
+
+CREATE TABLE <table-name> (name varchar(20), id int NOT NULL);
+
+DROP TABLE
+---------------
+DROP TABLE <table-name>;
+
+INSERT 
+----------------
+
+INSERT INTO employee(name,age) values('ridham',20),('raj'30),('ashish',24);
+
+- we can use ' "" ' for insertion.
+
+DEFAULT
+--------------
+
+CREATE TABLE tbl( name varchar(20) DEFAULT 'unnmaed',age int DEFAULT 99);
+
+Combine NOT NULL and DEFAULT:
+-----------------------------------
+we can't insert NULL values manually
+
+CREATE TABLE cats4  (    
+    name VARCHAR(20) NOT NULL DEFAULT 'unnamed',    
+    age INT NOT NULL DEFAULT 99 
+);
+
+PRIMARY KEYS
+---------------
+
+CREATE TABLE unique_cats (
+	cat_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    age INT NOT NULL
+);
+
+Employee Table
+------------------
+
+CREATE TABLE emplyoees (id INT PRIMARY KEY AUTO_INCREMENT,last_name varchar(10) NOT NULL, first_name VARCHAR(10) NOT NULL ,
+ middle_name VARCHAR(10) NOT NULL , age INT NOT NULL , current_status VARCHAR(10) NOT NULL DEFAULT 'employed');
+
+WHERE clause
+-----------------
+
+-condition for select particular fields
+
+ SELECT * from cats where age>=10;
+ 
+ ALIASES
+ ---------------
+ -change the name of column during result
+ 
+ SELECT name as cat_name from cats;
+ 
+ UPDATE
+ --------------
+ -update information
+ 
+ UPDATE cats SET breed='xyz' WHERE breed='Tabby';
+ 
+ DELETE
+ ----------------
+ -delete row
+ 
+ DELETE FROM cats where name='jack';
+ 
+ 
+ 
+ STRING functions
+ --------------------
+ 
+ CREATE TABLE books 
+	(
+		book_id INT AUTO_INCREMENT,
+		title VARCHAR(100),
+		author_fname VARCHAR(100),
+		author_lname VARCHAR(100),
+		released_year INT,
+		stock_quantity INT,
+		pages INT,
+		PRIMARY KEY(book_id)
+	);
+	
+	
+	INSERT INTO books (title, author_fname, author_lname, released_year, stock_quantity, pages)
+VALUES
+('The Namesake', 'Jhumpa', 'Lahiri', 2003, 32, 291),
+('Norse Mythology', 'Neil', 'Gaiman',2016, 43, 304),
+('American Gods', 'Neil', 'Gaiman', 2001, 12, 465),
+('Interpreter of Maladies', 'Jhumpa', 'Lahiri', 1996, 97, 198),
+('A Hologram for the King: A Novel', 'Dave', 'Eggers', 2012, 154, 352),
+('The Circle', 'Dave', 'Eggers', 2013, 26, 504),
+('The Amazing Adventures of Kavalier & Clay', 'Michael', 'Chabon', 2000, 68, 634),
+('Just Kids', 'Patti', 'Smith', 2010, 55, 304),
+('A Heartbreaking Work of Staggering Genius', 'Dave', 'Eggers', 2001, 104, 437),
+('Coraline', 'Neil', 'Gaiman', 2003, 100, 208),
+('What We Talk About When We Talk About Love: Stories', 'Raymond', 'Carver', 1981, 23, 176),
+("Where I'm Calling From: Selected Stories", 'Raymond', 'Carver', 1989, 12, 526),
+('White Noise', 'Don', 'DeLillo', 1985, 49, 320),
+('Cannery Row', 'John', 'Steinbeck', 1945, 95, 181),
+('Oblivion: Stories', 'David', 'Foster Wallace', 2004, 172, 329),
+('Consider the Lobster', 'David', 'Foster Wallace', 2005, 92, 343);
+
+
+---------+-----------------------------------------------------+--------------+----------------+---------------+----------------+-------+
+| book_id | title                                               | author_fname | author_lname   | released_year | stock_quantity | pages |
++---------+-----------------------------------------------------+--------------+----------------+---------------+----------------+-------+
+|       1 | The Namesake                                        | Jhumpa       | Lahiri         |          2003 |             32 |   291 |
+|       2 | Norse Mythology                                     | Neil         | Gaiman         |          2016 |             43 |   304 |
+|       3 | American Gods                                       | Neil         | Gaiman         |          2001 |             12 |   465 |
+|       4 | Interpreter of Maladies                             | Jhumpa       | Lahiri         |          1996 |             97 |   198 |
+|       5 | A Hologram for the King: A Novel                    | Dave         | Eggers         |          2012 |            154 |   352 |
+|       6 | The Circle                                          | Dave         | Eggers         |          2013 |             26 |   504 |
+|       7 | The Amazing Adventures of Kavalier & Clay           | Michael      | Chabon         |          2000 |             68 |   634 |
+|       8 | Just Kids                                           | Patti        | Smith          |          2010 |             55 |   304 |
+|       9 | A Heartbreaking Work of Staggering Genius           | Dave         | Eggers         |          2001 |            104 |   437 |
+|      10 | Coraline                                            | Neil         | Gaiman         |          2003 |            100 |   208 |
+|      11 | What We Talk About When We Talk About Love: Stories | Raymond      | Carver         |          1981 |             23 |   176 |
+|      12 | Where I'm Calling From: Selected Stories            | Raymond      | Carver         |          1989 |             12 |   526 |
+|      13 | White Noise                                         | Don          | DeLillo        |          1985 |             49 |   320 |
+|      14 | Cannery Row                                         | John         | Steinbeck      |          1945 |             95 |   181 |
+|      15 | Oblivion: Stories                                   | David        | Foster Wallace |          2004 |            172 |   329 |
+|      16 | Consider the Lobster                                | David        | Foster Wallace |          2005 |             92 |   343 |
+|      17 | The Namesake                                        | Jhumpa       | Lahiri         |          2003 |             32 |   291 |
+|      18 | Norse Mythology                                     | Neil         | Gaiman         |          2016 |             43 |   304 |
+|      19 | American Gods                                       | Neil         | Gaiman         |          2001 |             12 |   465 |
+|      20 | Interpreter of Maladies                             | Jhumpa       | Lahiri         |          1996 |             97 |   198 |
+|      21 | A Hologram for the King: A Novel                    | Dave         | Eggers         |          2012 |            154 |   352 |
+|      22 | The Circle                                          | Dave         | Eggers         |          2013 |             26 |   504 |
+|      23 | The Amazing Adventures of Kavalier & Clay           | Michael      | Chabon         |          2000 |             68 |   634 |
+|      24 | Just Kids                                           | Patti        | Smith          |          2010 |             55 |   304 |
+|      25 | A Heartbreaking Work of Staggering Genius           | Dave         | Eggers         |          2001 |            104 |   437 |
+|      26 | Coraline                                            | Neil         | Gaiman         |          2003 |            100 |   208 |
+|      27 | What We Talk About When We Talk About Love: Stories | Raymond      | Carver         |          1981 |             23 |   176 |
+|      28 | Where I'm Calling From: Selected Stories            | Raymond      | Carver         |          1989 |             12 |   526 |
+|      29 | White Noise                                         | Don          | DeLillo        |          1985 |             49 |   320 |
+|      30 | Cannery Row                                         | John         | Steinbeck      |          1945 |             95 |   181 |
+|      31 | Oblivion: Stories                                   | David        | Foster Wallace |          2004 |            172 |   329 |
+|      32 | Consider the Lobster                                | David        | Foster Wallace |          2005 |             92 |   343 |
++---------+-----------------------------------------------------+--------------+----------------+---------------+----------------+-------+
+
+
+(1) CONCAT - combine string 
+
+  select author_fname , author_lname , CONCAT(author_fname,' ', author_lname) as author_fullname from books;
+  
+  +--------------+--------------+-----------------+
+| author_fname | author_lname | author_fullname |
++--------------+--------------+-----------------+
+| Jhumpa       | Lahiri       | Jhumpa Lahiri   |
+| Neil         | Gaiman       | Neil Gaiman     |
+| Neil         | Gaiman       | Neil Gaiman     |
+| Jhumpa       | Lahiri       | Jhumpa Lahiri   |
+| Dave         | Eggers       | Dave Eggers     |
++--------------+--------------+-----------------+
+
+  CONCAT_WS - concat 
+  
+  select CONCAT_WS('_',author_fname,author_lname) as fullname from books LIMIT 3;
++---------------+
+| fullname      |
++---------------+
+| Jhumpa_Lahiri |
+| Neil_Gaiman   |
+| Neil_Gaiman   |
++---------------+
+
+
+
+(2) SUBSTRING(str,start,end) or SUBSTRING(str,satrt,end)
+
+(3) REPLACE
+--------------
+
+SELECT REPLACE('Hello world','ll','l');
++---------------------------------+
+| REPLACE('Hello world','ll','l') |
++---------------------------------+
+| Helo world                      |
++---------------------------------+
+
+(4) REVERSE
+--------------
+
+SELECT REVERSE('Hello world');
+
++------------------------+
+| REVERSE('Hello world') |
++------------------------+
+| dlrow olleH            |
++------------------------+
+
+ (5) CHAR_LENGTH() - returns character length
+     LENGTH() - returns length in byte
+ ---------------------
+ 
+ (6) UPPER(),UCASE() & LOWER(),LCASE()
+ ------------------------
+ 
+ (7) INSERT(str,start,replace_number,Insert_data)
+ -------------------------------------------------
+ 
+ SELECT INSERT('Hello Bobby',6,0,'There');
++-----------------------------------+
+| INSERT('Hello Bobby',6,0,'There') |
++-----------------------------------+
+| HelloThere Bobby                  |
++-----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> SELECT INSERT('Hello Bobby',6,4,'There');
++-----------------------------------+
+| INSERT('Hello Bobby',6,4,'There') |
++-----------------------------------+
+| HelloThereby                      |
++-----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT INSERT('Hello Bobby',6,6,'There');
++-----------------------------------+
+| INSERT('Hello Bobby',6,6,'There') |
++-----------------------------------+
+| HelloThere                        |
++-----------------------------------+
+
+
+
+ (8) LEFT
+----------------
+ -select data from LEFT
+ 
+ SELECT LEFT('hello',2);
++-----------------+
+| LEFT('hello',2) |
++-----------------+
+| he              |
++-----------------+
+
+(9) TRIM
+--------------
+-remove leading and trailing spaces
+
+SELECT TRIM('          Hello     ');
++------------------------------+
+| TRIM('          Hello     ') |
++------------------------------+
+| Hello                        |
++------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT TRIM(LEADING '.' FROM '.......xxxxx.....');
++--------------------------------------------+
+| TRIM(LEADING '.' FROM '.......xxxxx.....') |
++--------------------------------------------+
+| xxxxx.....                                 |
++--------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> SELECT TRIM(TRAILING '.' FROM '.......xxxxx.....');
++---------------------------------------------+
+| TRIM(TRAILING '.' FROM '.......xxxxx.....') |
++---------------------------------------------+
+| .......xxxxx                                |
++---------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> SELECT TRIM(BOTH '.' FROM '.......xxxxx.....');
++-----------------------------------------+
+| TRIM(BOTH '.' FROM '.......xxxxx.....') |
++-----------------------------------------+
+| xxxxx                                   |
++-----------------------------------------+
+
+-------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+REFINING SELECTIONS
+---------------------
+
+(1) DISTINCT - give distinct values only
+(2) ORDER BY - give values in desc or asc
+(3) LIMIT - LIMIT records (LIMIT 2,5)
+(4) LIKE - selects variable that have patterns or start with 
+
+elect author_fname from books where author_fname like 'd%';
++--------------+
+| author_fname |
++--------------+
+| Dave         |
+| Dave         |
+| Dave         |
+| Don          |
+| David        |
+| David        |
+| Dave         |
+| Dave         |
+| Dave         |
+| Don          |
+| David        |
+| David        |
+| Dan          |
++--------------+
+13 rows in set (0.00 sec)
+
+mysql> 
+mysql> select author_fname from books where author_fname like '_a%';
++--------------+
+| author_fname |
++--------------+
+| Dave         |
+| Dave         |
+| Patti        |
+| Dave         |
+| Raymond      |
+| Raymond      |
+| David        |
+| David        |
+| Dave         |
+| Dave         |
+| Patti        |
+| Dave         |
+| Raymond      |
+| Raymond      |
+| David        |
+| David        |
+| Dan          |
++--------------+
+
+
+(5) Escap(\) - for skipping like '%\%'.
+
+  	 
+ 
+ 
+
+
+
+
+
+ 
+
